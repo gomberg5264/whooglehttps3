@@ -18,6 +18,9 @@ from app.request import Request
 from app.utils.session_utils import valid_user_session
 from app.utils.routing_utils import *
 
+# Load DDG bang json files only on init
+bang_json = json.load(open(app.config['BANG_FILE']))
+
 
 def auth_required(f):
     @wraps(f)
@@ -118,13 +121,17 @@ def opensearch():
     return render_template(
         'opensearch.xml',
         main_url=opensearch_url,
-        request_type='get' if g.user_config.get_only else 'post'
+        request_type='' if g.user_config.get_only else 'method="post"'
     ), 200, {'Content-Disposition': 'attachment; filename="opensearch.xml"'}
 
 
 @app.route('/autocomplete', methods=['GET', 'POST'])
 def autocomplete():
     q = g.request_params.get('q')
+
+    # Search bangs if the query begins with "!", but not "! " (feeling lucky)
+    if q.startswith('!') and len(q) > 1 and not q.startswith('! '):
+        return jsonify([q, [bang_json[_]['suggestion'] for _ in bang_json if _.startswith(q)]])
 
     if not q and not request.data:
         return jsonify({'?': []})
@@ -142,6 +149,10 @@ def search():
 
     search_util = RoutingUtils(request, g.user_config, session, cookies_disabled=g.cookies_disabled)
     query = search_util.new_search_query()
+
+    resolved_bangs = search_util.bang_operator(bang_json)
+    if resolved_bangs != '':
+        return redirect(resolved_bangs)
 
     # Redirect to home if invalid/blank search
     if not query:

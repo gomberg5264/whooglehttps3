@@ -5,7 +5,6 @@
 [![Build Status](https://travis-ci.com/benbusby/whoogle-search.svg?branch=master)](https://travis-ci.com/benbusby/whoogle-search)
 [![codebeat badge](https://codebeat.co/badges/e96cada2-fb6f-4528-8285-7d72abd74e8d)](https://codebeat.co/projects/github-com-benbusby-shoogle-master)
 [![Docker Pulls](https://img.shields.io/docker/pulls/benbusby/whoogle-search)](https://hub.docker.com/r/benbusby/whoogle-search)
-[![Gitter](https://img.shields.io/gitter/room/benbusby/whoogle-search)](https://gitter.im/whoogle-search/community)
 
 Get Google search results, but without any ads, javascript, AMP links, cookies, or IP address tracking. Easily deployable in one click as a Docker app, and customizable with a single config file. Quick and simple to implement as a primary search engine replacement on both desktop and mobile.
 
@@ -22,7 +21,7 @@ Contents
 - No ads or sponsored content
 - No javascript
 - No cookies
-- No tracking/linking of your personal IP address
+- No tracking/linking of your personal IP address\*
 - No AMP links
 - No URL tracking tags (i.e. utm=%s)
 - No referrer header
@@ -32,8 +31,11 @@ Contents
 - Dark mode
 - Randomly generated User Agent
 - Easy to install/deploy
+- DDG-style bang (i.e. `!<tag> <query>`) searches
 - Optional location-based searching (i.e. results near \<city\>)
 - Optional NoJS mode to disable all Javascript in results
+
+<sup>*If deployed to a remote server</sup>
 
 ## Dependencies
 If using Heroku Quick Deploy, **you can skip this section**.
@@ -75,7 +77,7 @@ Persistent install:
 
 Sandboxed temporary instance:
 
-`pipx run git+https://github.com/benbusby/whoogle-search.git whoogle-search`
+`pipx run --spec git+https://github.com/benbusby/whoogle-search.git whoogle-search`
 
 ### D) pip
 `pip install whoogle-search`
@@ -204,15 +206,23 @@ Update browser settings:
   - Firefox (iOS)
     - In the mobile app Settings page, tap "Search" within the "General" section. There should be an option titled "Add Search Engine" to select. It should prompt you to enter a title and search query url - use the following elements to fill out the form:
       - Title: "Whoogle"
-      - URL: "https://\<your whoogle url\>/search?q=%s"
+      - URL: `http[s]://\<your whoogle url\>/search?q=%s`
   - Firefox (Android)
-    - Navigate to your app's url
-    - Long-press on the search text field
-    - Click the "Add Search Engine" menu item
-      - Select a name and click ok
-    - Click the 3 dot menu in the top right
-    - Navigate to the settings menu and select the "search" sub-menu
-    - Select Whoogle and press "Set as default"
+    - Version <79.0.0
+      - Navigate to your app's url
+      - Long-press on the search text field
+      - Click the "Add Search Engine" menu item
+        - Select a name and click ok
+      - Click the 3 dot menu in the top right
+      - Navigate to the settings menu and select the "Search" sub-menu
+      - Select Whoogle and press "Set as default"
+    - Version >=79.0.0
+      - Click the 3 dot menu in the top right
+      - Navigate to the settings menu and select the "Search" sub-menu
+      - Click "Add search engine"
+      - Select the 'Other' radio button
+        - Name: "Whoogle"
+        - Search string to use: `https://\<your whoogle url\>/search?q=%s`
   - [Alfred](https://www.alfredapp.com/) (Mac OS X)
 	  1. Go to `Alfred Preferences` > `Features` > `Web Search` and click `Add Custom Search`. Then configure these settings
 		   - Search URL: `https://\<your whoogle url\>/search?q={query}
