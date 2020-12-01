@@ -58,7 +58,7 @@ def before_request_func():
         app.user_elements.update({session['uuid']: 0})
 
     # Always redirect to https if HTTPS_ONLY is set (otherwise default to False)
-    https_only = os.getenv('HTTPS_ONLY', False)
+    https_only = os.getenv('HTTPS_ONLY', True)
 
     if https_only and request.url.startswith('http://'):
         return redirect(request.url.replace('http://', 'https://', 1), code=308)
