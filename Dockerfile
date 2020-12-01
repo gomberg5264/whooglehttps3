@@ -30,7 +30,7 @@ ENV WHOOGLE_PROXY_TYPE=$proxytype
 ARG proxyloc=''
 ENV WHOOGLE_PROXY_LOC=$proxyloc
 
-ARG use_https=''
+ARG use_https=1
 ENV HTTPS_ONLY=$use_https
 
 ARG whoogle_port=5000
