@@ -60,7 +60,7 @@ def before_request_func():
     # Always redirect to https if HTTPS_ONLY is set (otherwise default to False)
     https_only = os.getenv('HTTPS_ONLY', True)
 
-    if https_only and request.url.startswith('http://'):
+    if https_only and request.url.startswith('https://'):
         return redirect(request.url.replace('http://', 'https://', 1), code=308)
 
     g.user_config = Config(**session['config'])
