@@ -148,7 +148,7 @@ class Request:
             self.proxies['https'] = self.proxies['http'].replace('http', 'https')
         else:
             self.proxies = {
-                'http': 'socks5://127.0.0.1:9050',
+                'https': 'socks5://127.0.0.1:9050',
                 'https': 'socks5://127.0.0.1:9050'
             } if config.tor else {}
         self.tor = config.tor
