@@ -32,7 +32,6 @@ ENV WHOOGLE_PROXY_LOC=$proxyloc
 
 ARG use_https=1
 ENV HTTPS_ONLY=$use_https
-ENV --build-arg use_https=1
 ARG whoogle_port=5000
 ENV EXPOSE_PORT=$whoogle_port
 
