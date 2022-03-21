@@ -28,6 +28,6 @@ requests==2.23.0
 soupsieve==1.9.5
 stem==1.8.0
 urllib3==1.25.9
-waitress==1.4.3
+waitress==2.1.1
 wcwidth==0.1.9
 Werkzeug==0.16.0
